@@ -140,14 +140,24 @@ class Acf_widont_Public {
     }
 
 	/**
-	 * Load ACF value.
+	 * ACF value loader.
 	 *
 	 * @since    1.0.0
 	 */
-	public function acf_widont_load_simple( $value, $post_id, $field )
+	public function acf_widont_load( $value, $post_id, $field )
 	{
 	    // run widont on value
-	    $value = $this->acf_widont_simple($value);
+	    //var_dump($field['type']);
+	    switch ($field['type']) {
+	    	case 'textarea' || 'text':
+	    		$value = $this->acf_widont_simple($value);
+	    		break;
+	    	default:
+	    		//If default just use simple
+	    		$this->acf_widont_simple($value);
+	    		break;
+	    }
+	    
 	    return $value;
 	}
 

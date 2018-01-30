@@ -194,18 +194,10 @@ class Acf_widont {
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_textarea' );
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_wysiwyg' );
 
-        // $this->loader->add_action( 'wp_loaded', $plugin_public, 'wp_cbf_remove_comments_inline_styles' );
-        // $this->loader->add_action( 'wp_loaded', $plugin_public, 'wp_cbf_remove_gallery_styles' );
-        // $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'wp_cbf_cdn_jquery', PHP_INT_MAX);
-
         //Filters
 
-        // $this->loader->add_filter('wp_headers', $plugin_public, 'wp_cbf_remove_x_pingback');
-        // $this->loader->add_filter( 'body_class', $plugin_public, 'wp_cbf_body_class_slug' );
-
-
-       	//$this->loader->add_filter('acf/load_value/type=text', $plugin_public, 'acf_widont_load_simple', 10, 3);
-       	$this->loader->add_filter('acf/load_value/type=textarea', $plugin_public, 'acf_widont_load_simple', 10, 3);
+       	$this->loader->add_filter('acf/load_value/type=text', $plugin_public, 'acf_widont_load', 10, 3);
+       	$this->loader->add_filter('acf/load_value/type=textarea', $plugin_public, 'acf_widont_load', 10, 3);
 		// add_filter('acf/load_value/type=textarea', 'App\my_acf_load_value', 10, 3);
 
 	}
