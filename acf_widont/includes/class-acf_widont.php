@@ -191,7 +191,6 @@ class Acf_widont {
         // Cleanup - Actions and filters
 
         //Filters
-
        	$this->loader->add_filter('acf/load_value/type=text', $plugin_public, 'acf_widont_load', 10, 3);
        	$this->loader->add_filter('acf/load_value/type=textarea', $plugin_public, 'acf_widont_load', 10, 3);
        	$this->loader->add_filter('acf/load_value/type=wysiwyg', $plugin_public, 'acf_widont_load', 10, 3);
@@ -200,7 +199,6 @@ class Acf_widont {
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_textfield' );
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_textarea' );
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_wysiwyg' );
-
 
 	}
 

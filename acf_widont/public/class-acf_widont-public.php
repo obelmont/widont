@@ -102,35 +102,35 @@ class Acf_widont_Public {
 	}
 
 	/**
-	 * Register ACF textbox filter.
+	 * Determine ACF textbox filter.
 	 *
 	 * @since    1.0.0
 	 */
     public function acf_widont_textfield() {
-        if($this->acf_widont_options['textfield']){
-        	remove_filter('acf/load_value/type=text', 'acf_widont_load');
+        if(empty($this->acf_widont_options['textfield'])){
+        	remove_filter('acf/load_value/type=text', array($this, 'acf_widont_load'));
         }
     }
 
 	/**
-	 * Register ACF textarea filter.
+	 * Determine ACF textarea filter.
 	 *
 	 * @since    1.0.0
 	 */
     public function acf_widont_textarea() {
-        if($this->acf_widont_options['textarea']){
-        	remove_filter('acf/load_value/type=textarea', 'acf_widont_load');
+        if(empty($this->acf_widont_options['textarea'])){
+        	remove_filter('acf/load_value/type=textarea', array($this, 'acf_widont_load'));
         }
     }
 
 	/**
-	 * Register ACF wysiwyg filter.
+	 * Determine ACF wysiwyg filter.
 	 *
 	 * @since    1.0.0
 	 */
     public function acf_widont_wysiwyg() {
-        if($this->acf_widont_options['wysisyg']){
-			remove_filter('acf/load_value/type=wysiwyg', 'acf_widont_load');
+        if(empty($this->acf_widont_options['wysisyg'])){
+			remove_filter('acf/load_value/type=wysiwyg', array($this, 'acf_widont_load'));
         }
     }
 
@@ -142,29 +142,19 @@ class Acf_widont_Public {
 	public function acf_widont_load( $value, $post_id, $field )
 	{
 	    // run widont on value
-	    //var_dump($field['type']);
+	    var_dump($field['type']);
 	    switch ($field['type']) {
-	    	case 'textarea':
-	    		if($this->acf_widont_options['textarea']){
+	    	case 'textarea' || 'text':
 	    			$value = $this->acf_widont_simple($value);
-	    		}
-	    		break;
-	    	case 'text':
-	    		if($this->acf_widont_options['textfield']){
-	    			$value = $this->acf_widont_simple($value);
-	    		}
 	    		break;
 	    	case 'wysiwyg':
-	    		if($this->acf_widont_options['wysisyg']){
 	    			$value = $this->acf_widont_complex($value);
-	    		}
 	    		break;
 	    	default:
 	    		//If default just use simple
 	    		$this->acf_widont_simple($value);
 	    		break;
 	    }
-	    
 	    return $value;
 	}
 
@@ -190,34 +180,8 @@ class Acf_widont_Public {
 	 */
     private function acf_widont_complex($text) {
     	//Blanket replace
-    	var_dump($text);
     	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
     	return $text;
-    }   
-
-
-	// function widont($str = '')
-	// {
-	//   $str = rtrim($str);
-	//   $space = strrpos($str, ' ');
-	//   if ($space !== false)
-	//   {
-	//     $str = substr($str, 0, $space).'&nbsp'.substr($str, $space + 1); //;
-	//   }
-	//   return $str;
-	// }
-
-	// function my_acf_load_value_two( $value, $post_id, $field )
-	// {
-	//     // run widont on value
-	//     var_dump($value);
-	//     $value = widont($value);
-	//     return $value;
-	// }
-	// acf/load_value - filter for every value load
-	// add_filter('acf/load_value/type=text', 'App\my_acf_load_value', 10, 3);
-	// add_filter('acf/load_value/type=textarea', 'App\my_acf_load_value', 10, 3);
-	// add_filter('acf/load_value/type=wysiwyg', 'App\my_acf_load_value_two', 10, 3);
-
+    }
 
 }
