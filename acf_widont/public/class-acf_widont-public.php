@@ -107,9 +107,8 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     public function acf_widont_textfield() {
-
         if($this->acf_widont_options['textfield']){
-        	// $this->acf_widont_simple();
+        	remove_filter('acf/load_value/type=text', 'acf_widont_load');
         }
     }
 
@@ -119,10 +118,8 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     public function acf_widont_textarea() {
-
         if($this->acf_widont_options['textarea']){
-        	// $this->acf_widont_simple();
-
+        	remove_filter('acf/load_value/type=textarea', 'acf_widont_load');
         }
     }
 
@@ -132,10 +129,8 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     public function acf_widont_wysiwyg() {
-
         if($this->acf_widont_options['wysisyg']){
-			// $this->acf_widont_complex();
-
+			remove_filter('acf/load_value/type=wysiwyg', 'acf_widont_load');
         }
     }
 
@@ -149,11 +144,20 @@ class Acf_widont_Public {
 	    // run widont on value
 	    //var_dump($field['type']);
 	    switch ($field['type']) {
-	    	case 'textarea' || 'text':
-	    		$value = $this->acf_widont_simple($value);
+	    	case 'textarea':
+	    		if($this->acf_widont_options['textarea']){
+	    			$value = $this->acf_widont_simple($value);
+	    		}
+	    		break;
+	    	case 'text':
+	    		if($this->acf_widont_options['textfield']){
+	    			$value = $this->acf_widont_simple($value);
+	    		}
 	    		break;
 	    	case 'wysiwyg':
-	    		$value = $this->acf_widont_complex($value);
+	    		if($this->acf_widont_options['wysisyg']){
+	    			$value = $this->acf_widont_complex($value);
+	    		}
 	    		break;
 	    	default:
 	    		//If default just use simple
@@ -189,8 +193,6 @@ class Acf_widont_Public {
     	var_dump($text);
     	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
     	return $text;
-    	// $test = 'test';
-    	// return $test;
     }   
 
 
