@@ -78,6 +78,7 @@ class Acf_widont {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		//$this->check_settings();
 
 	}
 
@@ -198,8 +199,38 @@ class Acf_widont {
 
        	$this->loader->add_filter('acf/load_value/type=text', $plugin_public, 'acf_widont_load', 10, 3);
        	$this->loader->add_filter('acf/load_value/type=textarea', $plugin_public, 'acf_widont_load', 10, 3);
-		// add_filter('acf/load_value/type=textarea', 'App\my_acf_load_value', 10, 3);
+       	$this->loader->add_filter('acf/load_value/type=wysiwyg', $plugin_public, 'acf_widont_load', 10, 3);
 
+	}
+
+	/**
+	 * Settings Check
+	 *
+	 * @since    1.0.0
+	 */
+	public function check_settings() {
+
+		// if (!$options = get_option($this->plugin_name)) {
+	
+		// 	// All checkboxes inputs        
+		//     $valid = array();
+
+		// 	//Cleanup
+		// 	$valid['textfield'] = 1;
+		// 	$valid['textarea'] = 1;
+		// 	$valid['wysisyg'] = 1;
+
+		// 	register_setting($this->plugin_name, $this->plugin_name, $valid);		
+		// }
+
+			// $valid = array();
+
+			// //Cleanup
+			// $valid['textfield'] = 1;
+			// $valid['textarea'] = 1;
+			// $valid['wysisyg'] = 1;
+
+			// register_setting($this->plugin_name, $this->plugin_name, $valid);
 	}
 
 	/**

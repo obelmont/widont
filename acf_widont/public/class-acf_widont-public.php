@@ -152,6 +152,9 @@ class Acf_widont_Public {
 	    	case 'textarea' || 'text':
 	    		$value = $this->acf_widont_simple($value);
 	    		break;
+	    	case 'wysiwyg':
+	    		$value = $this->acf_widont_complex($value);
+	    		break;
 	    	default:
 	    		//If default just use simple
 	    		$this->acf_widont_simple($value);
@@ -181,7 +184,11 @@ class Acf_widont_Public {
 	 *
 	 * @since    1.0.0
 	 */
-    private function acf_widont_complex() {
+    private function acf_widont_complex($text) {
+    	//Blanket replace
+    	var_dump($text);
+    	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
+    	return $text;
     	// $test = 'test';
     	// return $test;
     }   

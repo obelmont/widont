@@ -122,7 +122,7 @@ class Acf_widont_Admin {
 	     *        Administration Menus: http://codex.wordpress.org/Administration_Menus
 	     *
 	     */
-	    add_options_page( 'WP Cleanup and Base Options Functions Setup', 'WP Cleanup', 'manage_options', $this->plugin_name, array($this, 'display_plugin_setup_page')
+	    add_options_page( 'Remove widows from ACF fields', 'ACF Widont', 'manage_options', $this->plugin_name, array($this, 'display_plugin_setup_page')
 	    );
 	}
 
@@ -150,23 +150,23 @@ class Acf_widont_Admin {
 	 */
 
 	public function display_plugin_setup_page() {
-	    include_once( 'partials/acf_widont-admin-display.php' );
+		include_once( 'partials/acf_widont-admin-display.php' );
 	}
 
 	public function validate($input) {
 	    // All checkboxes inputs        
 	    $valid = array();
 
-	    //Cleanup
-	    $valid['textfield'] = (isset($input['textfield']) && !empty($input['textfield'])) ? 1 : 0;
-	    $valid['textarea'] = (isset($input['textarea']) && !empty($input['textarea'])) ? 1: 0;
-	    $valid['wysisyg'] = (isset($input['wysisyg']) && !empty($input['wysisyg'])) ? 1 : 0;
+		//Cleanup
+		$valid['textfield'] = (isset($input['textfield']) && !empty($input['textfield'])) ? 1 : 0;
+		$valid['textarea'] = (isset($input['textarea']) && !empty($input['textarea'])) ? 1: 0;
+		$valid['wysisyg'] = (isset($input['wysisyg']) && !empty($input['wysisyg'])) ? 1 : 0;
 
-	    return $valid;
+		return $valid;
 	}
 
 	public function options_update() {
-    	register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
+		register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
  	}
 
 }
