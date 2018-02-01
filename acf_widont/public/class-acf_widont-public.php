@@ -142,7 +142,6 @@ class Acf_widont_Public {
 	public function acf_widont_load( $value, $post_id, $field )
 	{
 	    // run widont on value
-	    var_dump($field['type']);
 	    switch ($field['type']) {
 	    	case 'textarea' || 'text':
 	    			$value = $this->acf_widont_simple($value);
@@ -164,11 +163,13 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     public function acf_widont_simple($str = '') {
-		$str = rtrim($str);
-		$space = strrpos($str, ' ');
-		if ($space !== false)
-		{
-			$str = substr($str, 0, $space).'&nbsp;'.substr($str, $space + 1);
+    	//Check if accessed at admin panel
+    	if ( ! is_admin() ) {
+			$str = rtrim($str);
+			$space = strrpos($str, ' ');
+			if ($space !== false){
+				$str = substr($str, 0, $space).'&nbsp;'.substr($str, $space + 1);
+			}
 		}
 		return $str;
     }
@@ -179,8 +180,11 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     private function acf_widont_complex($text) {
-    	//Blanket replace
-    	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
+    	//Check if accessed at admin panel
+    	if ( ! is_admin() ) {
+	    	//Blanket replace
+	    	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
+    	}
     	return $text;
     }
 
