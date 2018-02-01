@@ -141,21 +141,48 @@ class Acf_widont_Public {
 	 */
 	public function acf_widont_load( $value, $post_id, $field )
 	{
-	    // run widont on value
-	    switch ($field['type']) {
-	    	case 'textarea' || 'text':
-	    			$value = $this->acf_widont_simple($value);
-	    		break;
-	    	case 'wysiwyg':
-	    			$value = $this->acf_widont_complex($value);
-	    		break;
-	    	default:
-	    		//If default just use simple
-	    		$this->acf_widont_simple($value);
-	    		break;
-	    }
-	    return $value;
+		// run widont on value
+		//var_dump($value);
+		switch ($field['type']) {
+			case 'textarea' || 'text':
+					$value = $this->acf_widont_simple($value);
+				break;
+			case 'wysiwyg':
+					$value = $this->acf_widont_complex($value);
+				break;
+			default:
+				//If default just use simple
+				$this->acf_widont_simple($value);
+				break;
+		}
+		return $value;
 	}
+
+
+	public function filter_acf_the_content( $value ) { 
+	    // make filter magic happen here... 
+	    //var_dump($value);
+
+	    // $doc = new DOMDocument();
+		// $doc->loadHTML($text);
+		// showDOMNode($doc);
+
+		// function showDOMNode(DOMNode $domNode) {
+		//     foreach ($domNode->childNodes as $node)
+		//     {
+		//         print $node->nodeName.':'.$node->nodeValue;
+		//         if($node->hasChildNodes()) {
+		//             showDOMNode($node);
+		//         }
+		//     }    
+		// }
+    	//echo $value;
+
+
+	    $value = $this->acf_widont_complex($value);
+	    return $value; 
+	}
+
 
 	/**
 	 * Simple widont function.
@@ -179,13 +206,29 @@ class Acf_widont_Public {
 	 *
 	 * @since    1.0.0
 	 */
-    private function acf_widont_complex($text) {
+    private function acf_widont_complex($value) {
+
+  		// $doc = new DOMDocument();
+		// $doc->loadHTML($text);
+		// showDOMNode($doc);
+
+		// function showDOMNode(DOMNode $domNode) {
+		//     foreach ($domNode->childNodes as $node)
+		//     {
+		//         print $node->nodeName.':'.$node->nodeValue;
+		//         if($node->hasChildNodes()) {
+		//             showDOMNode($node);
+		//         }
+		//     }    
+		// }
+    	//echo $value;
+
     	//Check if accessed at admin panel
     	if ( ! is_admin() ) {
 	    	//Blanket replace
-	    	$text = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $text);
+	    	$value = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $value);
     	}
-    	return $text;
+    	return $value;
     }
 
 }
