@@ -108,7 +108,7 @@ class Acf_widont_Public {
 	 */
     public function acf_widont_textfield() {
         if(empty($this->acf_widont_options['textfield'])){
-        	remove_filter('acf/load_value/type=text', array($this, 'acf_widont_load'));
+        	remove_filter('acf/format_value/type=text', array($this, 'acf_widont_load'));
         }
     }
 
@@ -119,7 +119,7 @@ class Acf_widont_Public {
 	 */
     public function acf_widont_textarea() {
         if(empty($this->acf_widont_options['textarea'])){
-        	remove_filter('acf/load_value/type=textarea', array($this, 'acf_widont_load'));
+        	remove_filter('acf/format_value/type=textarea', array($this, 'acf_widont_load'));
         }
     }
 
@@ -130,7 +130,7 @@ class Acf_widont_Public {
 	 */
     public function acf_widont_wysiwyg() {
         if(empty($this->acf_widont_options['wysisyg'])){
-			remove_filter('acf/load_value/type=wysiwyg', array($this, 'acf_widont_load'));
+			remove_filter('acf_the_content', array($this, 'filter_acf_the_content'));
         }
     }
 
@@ -169,13 +169,10 @@ class Acf_widont_Public {
 	 * @since    1.0.0
 	 */
     public function acf_widont_simple($str = '') {
-    	//Check if accessed at admin panel
-    	if ( ! is_admin() ) {
-			$str = rtrim($str);
-			$space = strrpos($str, ' ');
-			if ($space !== false){
-				$str = substr($str, 0, $space).'&nbsp;'.substr($str, $space + 1);
-			}
+		$str = rtrim($str);
+		$space = strrpos($str, ' ');
+		if ($space !== false){
+			$str = substr($str, 0, $space).'&nbsp;'.substr($str, $space + 1);
 		}
 		return $str;
     }
@@ -187,13 +184,12 @@ class Acf_widont_Public {
 	 */
     private function acf_widont_complex($value) {
 
-		if ( ! is_admin() )
-		{	
+			//Ignore warning
+			libxml_use_internal_errors(true);
 			$field = new DOMDocument();
 			$field->loadHTML(mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8'));
 			$field = $this->nodeReplace($field);
-			$value = $field->saveHTML();
-		}
+            $value = $field->saveHTML();
 
     	return $value;
     }
