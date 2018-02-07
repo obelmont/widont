@@ -16,7 +16,8 @@
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
 
-     <h2 class="nav-tab-wrapper">ACF Widont</h2>
+    <h2 class="">ACF Widont</h2>
+    <br>
 
     <form method="post" name="acf_widont_options" action="options.php">
 
