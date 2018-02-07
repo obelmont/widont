@@ -139,10 +139,8 @@ class Acf_widont_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function acf_widont_load( $value, $post_id, $field )
-	{
+	public function acf_widont_load( $value, $post_id, $field ){
 		// run widont on value
-		//var_dump($value);
 		switch ($field['type']) {
 			case 'textarea' || 'text':
 					$value = $this->acf_widont_simple($value);
@@ -160,26 +158,6 @@ class Acf_widont_Public {
 
 
 	public function filter_acf_the_content( $value ) { 
-	    // make filter magic happen here... 
-	    //var_dump($value);
-
-	    // $doc = new DOMDocument();
-		// $doc->loadHTML($text);
-		// showDOMNode($doc);
-
-		// function showDOMNode(DOMNode $domNode) {
-		//     foreach ($domNode->childNodes as $node)
-		//     {
-		//         print $node->nodeName.':'.$node->nodeValue;
-		//         if($node->hasChildNodes()) {
-		//             showDOMNode($node);
-		//         }
-		//     }    
-		// }
-    	//echo $value;
-    	
-
-
 	    $value = $this->acf_widont_complex($value);
 
 	    return $value; 
@@ -210,148 +188,39 @@ class Acf_widont_Public {
 	 */
     private function acf_widont_complex($value) {
 
-  		$doc = new DOMDocument();
-  		//$doc->preserveWhiteSpace = false;
-  		//$doc->formatOutput       = true;
-		$doc->loadHTML(mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8'));
-		$domx = new DOMXPath($doc);
-		
-		//var_dump($value);
-		//$entriess = $domx->evaluate("//p|//ul|//h1");
-		//$entriess = $domx->evaluate();
-
-		// echo "BEGIN";
-		// echo $doc->saveHTML();
-		// echo "END";
-
-		// echo "<pre>";
-		// var_dump($domx->document->documentElement);
-		// echo "</pre>";
-
-
-		// foreach ($domx->document->childNodes as $entries) {
-		// 	echo "<pre>";
-		// 	var_dump($entries);
-		// 	echo "<pre>";
-		// }
-
-		// echo "<pre>";
-		// var_dump($domx->document);
-		// echo "</pre>";
-
-		// foreach ($entries as $entry) {
-		// 	var_dump($entry->ownerDocument->saveHTML($entry));
-		// }
-
-
-		// $dom = new DOMDocument();
-		// $dom->loadHTML($value);
-		// $entries = $dom->getElementsByTagName('p');
-		// $new_dom = new DOMDocument();
-		// foreach ($entries as $entry) {
-		//     $new_dom->appendChild($new_dom->importNode($entry, TRUE));
-		// }
-		// $result = $new_dom->saveHTML();
-		// var_dump($result);
-
-		if ( ! is_admin() ) {
-			$doc = $this->nodeReplace($doc);
-			echo $doc->saveHTML();
+		if ( ! is_admin() )
+		{	
+			$field = new DOMDocument();
+			$field->loadHTML(mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8'));
+			$field = $this->nodeReplace($field);
+			$value = $field->saveHTML();
 		}
-
-
-		//var_dump($doc);
-
-		//$this->tester($value);
-
-		//$this->showDOMNode($doc);
-
-		// foreach ($test as $book) {
-		// 	echo '<pre>';
-		// 		var_dump($book->nodeValue);				
-		// 	echo '</pre>';
-		// }
-
-
-		//$div = $doc->documentElement->getElementsByTagName('div');
-
-		// var_dump($doc->documentElement->childNodes);
-		//var_dump($doc->childNodes);
-
-		//echo $doc['textContent'];
-		//$dom->getElementsByTagName('*');
-
-		// if ($doc->hasChildNodes()) {
-			
-		// }
-		// echo "<pre>";
-		// var_dump($doc);
-		// echo "</pre>";
-
-
-		// foreach ($doc->childNodes as $node) {
-		// 	echo '<h1> CHILD NODE </h1>';
-		// 	$this->tester($node);
-		// 	// foreach ($node->childNodes as $node) {
-		// 	// 	echo '<h1> CHILD CHILD NODE </h1>';
-		// 	// }
-		// }
-
-		//$this->showDOMNode($doc);
-
-		// function showDOMNode(DOMNode $domNode) {
-		//     foreach ($domNode->childNodes as $node)
-		//     {
-		//         print $node->nodeName.':'.$node->nodeValue;
-		//         if($node->hasChildNodes()) {
-		//             showDOMNode($node);
-		//         }
-		//     }    
-		// }
-  		//   	echo $value;
-
-    	//Check if accessed at admin panel
-    	// if ( ! is_admin() ) {
-	    // 	//Blanket replace
-	    // 	$value = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $value);
-    	// }
 
     	return $value;
     }
 
-    public function nodeReplace(DOMnode $domNode){
-    	$newdom = $domNode;
-    	foreach ($domNode->childNodes as $node)
-	    {
-	        if($node->hasChildNodes()) {
-	            $this->nodeReplace($node);
-	        }
-	        else{
-	      //   	$array[] = $node->ownerDocument->saveHTML($node);
-	      		
-	      //   	//var_dump($node->ownerDocument->saveXML( $node ));
-	      //   	//echo $doc->saveXML($node);
-	      //   	//$node->ownerDocument->saveXML( $node );
-	      //   	var_dump($node->tagName);
+	/**
+	 * Node replacement function for each paragraph tag.
+	 *
+	 * @since    1.0.0
+	 */
+    public function nodeReplace(DOMnode $field){
 
-	      		// 	echo "<pre>";
-	    		// var_dump($node->nodeValue);
+    	$newfield = $field;
+    	$nbsp = "\xc2\xa0"; //non-breaking space character instead of utf-8 code.
 
-	    		$node->nodeValue = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $node->nodeValue);
-	    		//echo "</pre>";
+    	foreach ($field->childNodes as $node)
+    	{
+			if($node->hasChildNodes()) {
+				$this->nodeReplace($node);
+			}
+			else{
+				if ($node->nodeType == 3) { // nodeType:3 TEXT_NODE
+					$node->nodeValue = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1'.$nbsp.'$2', $node->nodeValue);
+				}
 	        }
 	    }
-	    return $newdom;
+	    return $newfield;
     }
-
-    public static function showDOMNode(DOMNode $domNode) {
-	    foreach ($domNode->childNodes as $node)
-	    {
-	        print $node->nodeName.':'.$node->nodeValue;
-	        if($node->hasChildNodes()) {
-	            showDOMNode($node);
-	        }
-	    }    
-	}
 
 }
