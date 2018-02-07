@@ -195,7 +195,7 @@ class Acf_widont {
        	$this->loader->add_filter('acf/load_value/type=textarea', $plugin_public, 'acf_widont_load', 10, 3);
        	$this->loader->add_filter('acf/load_value/type=wysiwyg', $plugin_public, 'acf_widont_load', 10, 3);
        	//ACF content
-       	$this->loader->add_filter('acf_the_content', $plugin_public, 'filter_acf_the_content', 90, 3);
+       	$this->loader->add_filter('acf_the_content', $plugin_public, 'filter_acf_the_content', 900, 3);
         
         //Actions
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_textfield' );

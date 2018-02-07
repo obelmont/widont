@@ -177,9 +177,11 @@ class Acf_widont_Public {
 		//     }    
 		// }
     	//echo $value;
+    	
 
 
 	    $value = $this->acf_widont_complex($value);
+
 	    return $value; 
 	}
 
@@ -208,9 +210,52 @@ class Acf_widont_Public {
 	 */
     private function acf_widont_complex($value) {
 
-  		// $doc = new DOMDocument();
-		// $doc->loadHTML($text);
-		// showDOMNode($doc);
+  		$doc = new DOMDocument();
+  		//$doc->preserveWhiteSpace = false;
+  		//$doc->formatOutput       = true;
+		$doc->loadHTML(mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8'));
+		$test = $doc->getElementsByTagName('*');
+
+
+		//var_dump($doc);
+
+		//$this->tester($value);
+
+		//$this->showDOMNode($doc);
+
+		// foreach ($test as $book) {
+		// 	echo '<pre>';
+		// 		var_dump($book->nodeValue);				
+		// 	echo '</pre>';
+		// }
+
+
+		//$div = $doc->documentElement->getElementsByTagName('div');
+
+		// var_dump($doc->documentElement->childNodes);
+		//var_dump($doc->childNodes);
+
+		//echo $doc['textContent'];
+		//$dom->getElementsByTagName('*');
+
+		// if ($doc->hasChildNodes()) {
+			
+		// }
+		// echo "<pre>";
+		// var_dump($doc);
+		// echo "</pre>";
+
+		$this->tester($doc);
+
+		// foreach ($doc->childNodes as $node) {
+		// 	echo '<h1> CHILD NODE </h1>';
+		// 	$this->tester($node);
+		// 	// foreach ($node->childNodes as $node) {
+		// 	// 	echo '<h1> CHILD CHILD NODE </h1>';
+		// 	// }
+		// }
+
+		//$this->showDOMNode($doc);
 
 		// function showDOMNode(DOMNode $domNode) {
 		//     foreach ($domNode->childNodes as $node)
@@ -221,14 +266,41 @@ class Acf_widont_Public {
 		//         }
 		//     }    
 		// }
-    	//echo $value;
+  		//   	echo $value;
 
     	//Check if accessed at admin panel
-    	if ( ! is_admin() ) {
-	    	//Blanket replace
-	    	$value = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $value);
-    	}
+    	// if ( ! is_admin() ) {
+	    // 	//Blanket replace
+	    // 	$value = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $value);
+    	// }
     	return $value;
     }
+
+    public function tester(DOMnode $domNode){
+    	foreach ($domNode->childNodes as $node)
+	    {
+	    	//echo "TEST 1";
+
+	        //print $node->nodeName.':'.$node->nodeValue;
+	        if($node->hasChildNodes()) {
+	            $this->tester($node);
+	        }
+	        else{
+	        	echo "<pre>";
+	    		var_dump($node->nodeValue);
+	    		echo "</pre>";
+	        }
+	    }
+    }
+
+    public static function showDOMNode(DOMNode $domNode) {
+	    foreach ($domNode->childNodes as $node)
+	    {
+	        print $node->nodeName.':'.$node->nodeValue;
+	        if($node->hasChildNodes()) {
+	            showDOMNode($node);
+	        }
+	    }    
+	}
 
 }
