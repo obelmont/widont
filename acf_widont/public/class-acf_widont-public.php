@@ -214,7 +214,50 @@ class Acf_widont_Public {
   		//$doc->preserveWhiteSpace = false;
   		//$doc->formatOutput       = true;
 		$doc->loadHTML(mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8'));
-		$test = $doc->getElementsByTagName('*');
+		$domx = new DOMXPath($doc);
+		
+		//var_dump($value);
+		//$entriess = $domx->evaluate("//p|//ul|//h1");
+		//$entriess = $domx->evaluate();
+
+		// echo "BEGIN";
+		// echo $doc->saveHTML();
+		// echo "END";
+
+		// echo "<pre>";
+		// var_dump($domx->document->documentElement);
+		// echo "</pre>";
+
+
+		// foreach ($domx->document->childNodes as $entries) {
+		// 	echo "<pre>";
+		// 	var_dump($entries);
+		// 	echo "<pre>";
+		// }
+
+		// echo "<pre>";
+		// var_dump($domx->document);
+		// echo "</pre>";
+
+		// foreach ($entries as $entry) {
+		// 	var_dump($entry->ownerDocument->saveHTML($entry));
+		// }
+
+
+		// $dom = new DOMDocument();
+		// $dom->loadHTML($value);
+		// $entries = $dom->getElementsByTagName('p');
+		// $new_dom = new DOMDocument();
+		// foreach ($entries as $entry) {
+		//     $new_dom->appendChild($new_dom->importNode($entry, TRUE));
+		// }
+		// $result = $new_dom->saveHTML();
+		// var_dump($result);
+
+		if ( ! is_admin() ) {
+			$doc = $this->nodeReplace($doc);
+			echo $doc->saveHTML();
+		}
 
 
 		//var_dump($doc);
@@ -245,7 +288,6 @@ class Acf_widont_Public {
 		// var_dump($doc);
 		// echo "</pre>";
 
-		$this->tester($doc);
 
 		// foreach ($doc->childNodes as $node) {
 		// 	echo '<h1> CHILD NODE </h1>';
@@ -273,24 +315,33 @@ class Acf_widont_Public {
 	    // 	//Blanket replace
 	    // 	$value = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $value);
     	// }
+
     	return $value;
     }
 
-    public function tester(DOMnode $domNode){
+    public function nodeReplace(DOMnode $domNode){
+    	$newdom = $domNode;
     	foreach ($domNode->childNodes as $node)
 	    {
-	    	//echo "TEST 1";
-
-	        //print $node->nodeName.':'.$node->nodeValue;
 	        if($node->hasChildNodes()) {
-	            $this->tester($node);
+	            $this->nodeReplace($node);
 	        }
 	        else{
-	        	echo "<pre>";
-	    		var_dump($node->nodeValue);
-	    		echo "</pre>";
+	      //   	$array[] = $node->ownerDocument->saveHTML($node);
+	      		
+	      //   	//var_dump($node->ownerDocument->saveXML( $node ));
+	      //   	//echo $doc->saveXML($node);
+	      //   	//$node->ownerDocument->saveXML( $node );
+	      //   	var_dump($node->tagName);
+
+	      		// 	echo "<pre>";
+	    		// var_dump($node->nodeValue);
+
+	    		$node->nodeValue = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1&nbsp;$2', $node->nodeValue);
+	    		//echo "</pre>";
 	        }
 	    }
+	    return $newdom;
     }
 
     public static function showDOMNode(DOMNode $domNode) {
