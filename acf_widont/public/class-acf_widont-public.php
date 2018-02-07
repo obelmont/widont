@@ -159,7 +159,6 @@ class Acf_widont_Public {
 
 	public function filter_acf_the_content( $value ) { 
 	    $value = $this->acf_widont_complex($value);
-
 	    return $value; 
 	}
 
@@ -200,7 +199,7 @@ class Acf_widont_Public {
     }
 
 	/**
-	 * Node replacement function for each paragraph tag.
+	 * Node replacement function for each TEXT_NODE.
 	 *
 	 * @since    1.0.0
 	 */
@@ -216,7 +215,16 @@ class Acf_widont_Public {
 			}
 			else{
 				if ($node->nodeType == 3) { // nodeType:3 TEXT_NODE
-					$node->nodeValue = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1'.$nbsp.'$2', $node->nodeValue);
+
+					$str = rtrim($node->nodeValue);
+					$space = strrpos($str, ' ');
+					if ($space !== false){
+						$str = substr($str, 0, $space).$nbsp.substr($str, $space + 1);
+					}
+					$node->nodeValue = $str;
+
+					//regex option
+					//$node->nodeValue = preg_replace( '|([^\s])\s+([^\s]+)\s*$|', '$1'.$nbsp.'$2', $node->nodeValue);
 				}
 	        }
 	    }
