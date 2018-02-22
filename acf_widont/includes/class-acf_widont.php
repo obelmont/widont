@@ -78,7 +78,6 @@ class Acf_widont {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		//$this->check_settings();
 
 	}
 
@@ -181,7 +180,6 @@ class Acf_widont {
 		$plugin_public = new Acf_widont_Public( $this->get_plugin_name(), $this->get_version() );
 
 		/* 
-        *  The following actions are commented out as we won't need any added style or script to our theme
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
         */
@@ -202,36 +200,6 @@ class Acf_widont {
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_textarea' );
         $this->loader->add_action( 'wp_loaded', $plugin_public, 'acf_widont_wysiwyg' );
 
-	}
-
-	/**
-	 * Settings Check
-	 *
-	 * @since    1.0.0
-	 */
-	public function check_settings() {
-
-		// if (!$options = get_option($this->plugin_name)) {
-	
-		// 	// All checkboxes inputs        
-		//     $valid = array();
-
-		// 	//Cleanup
-		// 	$valid['textfield'] = 1;
-		// 	$valid['textarea'] = 1;
-		// 	$valid['wysisyg'] = 1;
-
-		// 	register_setting($this->plugin_name, $this->plugin_name, $valid);		
-		// }
-
-			// $valid = array();
-
-			// //Cleanup
-			// $valid['textfield'] = 1;
-			// $valid['textarea'] = 1;
-			// $valid['wysisyg'] = 1;
-
-			// register_setting($this->plugin_name, $this->plugin_name, $valid);
 	}
 
 	/**
