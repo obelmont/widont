@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       ACF Widont
- * Plugin URI:        https://oliverbelmont.com
+ * Plugin URI:        https://github.com/obelmont/widont
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Oliver
