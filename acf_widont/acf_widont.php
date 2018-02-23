@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://oliverbelmont.com
+ * @link              https://oliverbelmont.com
  * @since             1.0.0
  * @package           Acf_widont
  *
  * @wordpress-plugin
  * Plugin Name:       ACF Widont
- * Plugin URI:        http://oliverbelmont.com
+ * Plugin URI:        https://oliverbelmont.com
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Oliver
- * Author URI:        http://oliverbelmont.com
+ * Author URI:        https://oliverbelmont.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       acf_widont
