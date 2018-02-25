@@ -1,6 +1,6 @@
 
 <h1 align="center">ACF Widont</h1>
-<h3 align="center">A wordpress plugin to </h3>
+<h3 align="center">A wordpress plugin to remove widows from ACF fields</h3>
 
 <div align="center">
   <!-- Version -->
